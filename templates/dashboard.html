@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5 text-center">Dashboard</h2>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Actions</th>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Input</th>
+                    <th>Output</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>
+                        <form method="post">
+                            <input hidden type="text" name="delete" value="{{ row[0] }}">
+                            <input value="x" type="submit" class="btn btn-danger">
+                        </form>
+                    </td>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td style="max-width: 20rem;" class="overflow-auto"><pre>{{ row[2] }}</pre></td>
+                    <td style="max-width: 20rem;" class="overflow-auto"><pre>{{ row[3] }}</pre></td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
