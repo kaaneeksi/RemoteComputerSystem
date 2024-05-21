@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <!-- Tailwind CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        .kard {
+            position: relative;
+            height: 15rem; /* başlangıçta görülecek yükseklik */
+            overflow: hidden;
+            transition: height .5s ease-out;
+    }
+    
+        .kard.open {
+            height: 40rem !important;/* kartın tam açılacağı yükseklik */
+        }
+
+        #Content1 {
+            position: absolute;
+            bottom: 0; /* Kutunun altında */
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+        }
+        #Content2 {
+            position: absolute;
+            bottom: 0; /* Kutunun altında */
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+        }
+        
+
+    </style>
+    
+
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-white text-2xl font-semibold">K&K</h1>
+            <a href="http://127.0.0.1:5555/"><button class="text-white focus:outline-none focus:bg-gray-700 px-4 py-2 rounded-md">Logout</button></a>
+        </div>
+    </nav>
+
+    <div style="display: flex;">
+        <!-- Sidebar -->
+    <aside class="bg-gray-900 text-gray-400 w-64 min-h-screen flex-shrink-0">
+        <div class="p-4">
+            <h2 class="text-xl font-semibold mb-4 block hover:text-white"><a href="mainpage">Menu</a></h2>
+            <ul class="space-y-2">
+                <li><a href="dashboard" class="block hover:text-white">Dashboard</a></li>
+                <li><a href="" class="block hover:text-white">Users</a></li>
+                <li><a href="attacks" class="block hover:text-white">Attacks</a></li>
+                <li><a href="#" class="block hover:text-white">Settings</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="p-4">
+        <div class="container mx-auto">
+            
+            <!-- Card Container -->
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-lg shadow-md p-6 kard" >
+                    <h3 class="text-lg font-semibold mb-4">Attack 1</h3>
+                    <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                    <div class="mt-4 flex justify-between items-center" id="Content1">
+                        <a  class="text-blue-500 hover:underline LearnMore">Learn More</a>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Action Button</button>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white rounded-lg shadow-md p-6 kard">
+                    <h3 class="text-lg font-semibold mb-4">Attack 2</h3>
+                    <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                    <div class="mt-4 flex justify-between items-center Content" id="Content2">
+                        <a  class="text-blue-500 hover:underline LearnMore">Learn More</a>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Action Button</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    </div>
+
+    <script>
+    
+        for (let card of document.querySelectorAll('.kard')) {
+            card.addEventListener('click', function() {
+                card.classList.toggle('open');
+            });
+        }
+
+    </script>
+
+</body>
+
+
+</html>

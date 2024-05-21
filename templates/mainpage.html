@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <!-- Tailwind CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .buton {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100vw;
+          height: 50vh;
+        }
+        .button {
+          background-color: grey; /* Yeşil renk */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          transition-duration: 0.4s;
+          cursor: pointer;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        
+        .button:hover {
+          background-color: red; /* Koyu yeşil renk */
+          color: white;
+        }
+        
+        /* Animasyonlar */
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+          }
+          70% {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+          }
+        }
+        
+        .pulse {
+          animation: pulse 2s infinite;
+        }
+        .none {
+            display: none;
+        }
+        @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s ease forwards;
+        }
+        .fadeIn {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+        }
+        </style>
+    
+</head>
+
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-white text-2xl font-semibold">K&K</h1>
+            <a href="http://127.0.0.1:5555/"><button class="text-white focus:outline-none focus:bg-gray-700 px-4 py-2 rounded-md">Logout</button></a>
+        </div>
+    </nav>
+
+    <div style="display: flex;">
+        <!-- Sidebar -->
+    <aside class="bg-gray-900 text-gray-400 w-64 min-h-screen flex-shrink-0">
+        <div class="p-4">
+            <h2 class="text-xl font-semibold mb-4">Menu</h2>
+            <ul class="space-y-2">
+                <li><a href="dashboard" class="block hover:text-white">Dashboard</a></li>
+                <li><a href="#" class="block hover:text-white">Users</a></li>
+                <li><a href="attacks" class="block hover:text-white">Attacks</a></li>
+                <li><a href="#" class="block hover:text-white">Settings</a></li>
+            </ul>
+        </div>
+    </aside>
+
+
+    <div class="buton">
+        <button class="button pulse" name="start_listener" method="post" id="runButton">Listener Çalıştır</button>
+        <button class="button pulse none"  name="stop_listener" method="post" id="stopButton">Listener Durdur</button>
+    </div>
+
+
+    </div>
+    
+    <script>
+
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for(var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+
+
+        document.getElementById("runButton").addEventListener("click", function() {
+            localStorage.setItem("active1", "false");
+            localStorage.setItem("active2", "true");
+            
+            let active1 = localStorage.getItem("active1");
+            if (active1 === "false") {
+                document.getElementById("runButton").classList.add("fadeOut");
+            setTimeout(() => {
+                document.getElementById("runButton").classList.add("none");
+            }, 500);
+            setTimeout(() => {
+                document.getElementById("stopButton").classList.remove("none");
+                document.getElementById("stopButton").classList.remove("fadeOut");
+            }, 500);
+            }
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "/mainpage", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+
+                }
+            };
+            xhr.send('true');
+        });
+
+        document.getElementById("stopButton").addEventListener("click", function() {
+            localStorage.setItem("active1", "true");
+            localStorage.setItem("active2", "false");
+            let active2 = localStorage.getItem("active2");
+            if (active2 === "false") {
+                document.getElementById("stopButton").classList.add("fadeOut");
+            setTimeout(() => {
+                document.getElementById("stopButton").classList.add("none");
+            }, 500);
+            setTimeout(() => {
+                document.getElementById("runButton").classList.remove("none");
+                document.getElementById("runButton").classList.remove("fadeOut");
+            }, 500);
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/mainpage", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+
+                }
+            };
+            xhr.send('false');
+        });
+    </script>
+    
+</body>
+
+</html>

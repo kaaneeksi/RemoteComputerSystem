@@ -5,39 +5,75 @@
     <title>Dashboard</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    
+
 </head>
 <body>
-    <div class="container">
-        <h2 class="mt-5 text-center">Dashboard</h2>
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Actions</th>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Input</th>
-                    <th>Output</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in rows %}
-                <tr>
-                    <td>
-                        <form method="post">
-                            <input hidden type="text" name="delete" value="{{ row[0] }}">
-                            <input value="x" type="submit" class="btn btn-danger">
-                        </form>
-                    </td>
-                    <td>{{ row[0] }}</td>
-                    <td>{{ row[1] }}</td>
-                    <td style="max-width: 20rem;" class="overflow-auto"><pre>{{ row[2] }}</pre></td>
-                    <td style="max-width: 20rem;" class="overflow-auto"><pre>{{ row[3] }}</pre></td>
-                    
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4  ">
+        <div class="container mx-auto flex justify-between items-center ">
+            <h1 class="text-white text-2xl font-semibold">K&K</h1>
+            <a href="http://127.0.0.1:5555/"><button class="text-white focus:outline-none focus:bg-gray-700 px-4 py-2 rounded-md">Logout</button></a>
+        </div>
+    </nav>
+
+
+    <div style="display: flex;">
+        <aside class="bg-gray-900 text-gray-400 w-64 min-h-screen flex-shrink-0 ">
+            <div class="p-4">
+                <h2 class="text-xl font-semibold mb-4 block hover:text-white"><a href="mainpage">Menu</a></h2>
+                <ul class="space-y-2">
+                    <li><a href="dashboard" class="block hover:text-white">Dashboard</a></li>
+                    <li><a href="#" class="block hover:text-white">Users</a></li>
+                    <li><a href="attacks" class="block hover:text-white">Attacks</a></li>
+                    <li><a href="#" class="block hover:text-white">Settings</a></li>
+                </ul>
+            </div>
+        </aside>
+    
+        <main class="p-4 ml-10">
+            <div class="container">
+                
+                <table class="table table-bordered mt-5">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Actions</th>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Input</th>
+                            <th>Output</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                        <tr>
+                            <td>
+                                <form method="post">
+                                    <input hidden type="text" name="delete" value="{{ row[0] }}">
+                                    <input value="x" type="submit" class="btn btn-danger">
+                                </form>
+                            </td>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td style="max-width: 20rem;" class="overflow-auto"><pre>{{ row[2] }}</pre></td>
+                            <td style="max-width: 20rem;" class="overflow-auto"><pre>{{ row[3] }}</pre></td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
+    <!-- Sidebar -->
+    
+
+
+    
 </body>
 </html>
